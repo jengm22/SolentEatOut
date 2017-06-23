@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/newResID" android:title="@string/newRestautant" />
+    <item android:id="@+id/saveResID" android:title="@string/saveRestautant" />
+    <item android:id="@+id/loadResID" android:title="@string/loadRestautant" />
+    <item android:id="@+id/setPrefID" android:title="@string/setPref"/>
+</menu>
