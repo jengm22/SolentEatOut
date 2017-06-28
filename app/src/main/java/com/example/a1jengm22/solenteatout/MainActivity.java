@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), null);
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
 
         mv = (MapView) findViewById(R.id.mvID);
@@ -99,8 +100,8 @@ public class MainActivity extends Activity {
                     {
                         Double lat = Double.valueOf(components[2]).doubleValue();
                         Double lon = Double.valueOf(components[3]).doubleValue();
-                        /*OverlayItem itm = new OverlayItem(components[0], components[1], new GeoPoint(lat, lon));
-                        items.addItem(itm);*/
+                        OverlayItem itm = new OverlayItem(components[0], components[1], new GeoPoint(lat, lon));
+                        items.addItem(itm);
 
                     }
                 }
@@ -173,10 +174,32 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
 
+        try
+        {
+            BufferedReader reader = new BufferedReader(new FileReader(Environment.getExternalStorageDirectory().getAbsolutePath() + "/data.csv"));
+            String line;
+            while((line = reader.readLine()) != null)
+            {
+                String[] components = line.split(",");
+                if(components.length==4)
+                {
+                    Double lat = Double.valueOf(components[2]).doubleValue();
+                    Double lon = Double.valueOf(components[3]).doubleValue();
+                        OverlayItem itm = new OverlayItem(components[0], components[1], new GeoPoint(lat, lon));
+                        items.addItem(itm);
 
+                }
+            }
+        }
+        catch(IOException e)
+        {
+            new AlertDialog.Builder(this).setMessage("ERROR: " + e).
+                    setPositiveButton("OK", null).show();
 
+        }
     }
 }
